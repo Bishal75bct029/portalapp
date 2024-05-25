@@ -15,9 +15,12 @@ export async function login(req: Request, res: Response) {
     })
 
     if (!(user && (await bcrypt.compare(req.body.password, user.password)))) {
-        res.status(401)
+        res.status(422)
         return {
-            message: "Invalid email or password",
+            message: "The given data is invalid",
+            errors: {
+                email: "Invalid credentials",
+            }
         }
     }
 
