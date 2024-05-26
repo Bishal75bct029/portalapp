@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/index.ts | grep -v \"Important! Eviction policy is volatile-lru. It should be \"noeviction\"\"",
     "seed": "ts-node src/seeder.ts"
   },
   "keywords": [],
@@ -24,8 +24,10 @@
   "dependencies": {
     "@prisma/client": "^5.14.0",
     "@types/express-fileupload": "^1.5.0",
+    "@types/swagger-ui-express": "^4.1.6",
     "bcrypt": "^5.1.1",
     "bullmq": "^5.7.11",
+    "cluster": "^0.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -34,6 +36,7 @@
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
     "prisma": "^5.14.0",
+    "swagger-ui-express": "^5.0.0",
     "xlsx": "^0.18.5"
   }
 }

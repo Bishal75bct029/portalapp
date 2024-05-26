@@ -135,10 +135,23 @@ export async function destroy(req: Request, res: Response) {
         }
     }
 
+    console.log(id);
+    const employer = await prisma.employer.findFirstOrThrow({
+        where: {
+            userId: id
+        }
+    })
+
     await prisma.$transaction(async () => {
+        await prisma.employee.deleteMany({
+            where: {
+                employerId: employer.id
+            }
+        })
+
         await prisma.employer.delete({
             where: {
-                userId: id,
+                id: employer.id,
             },
         })
 
