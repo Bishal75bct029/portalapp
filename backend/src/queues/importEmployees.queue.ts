@@ -1,5 +1,5 @@
 import { Queue } from "bullmq"
-import { REDIS_HOST, REDIS_PORT } from "../config"
+import { REDIS_HOST, REDIS_PASSWORD, REDIS_PORT } from "../config"
 import xlsx from "xlsx"
 import prisma from "../../prisma"
 import { hashText } from "../utils"
@@ -8,6 +8,7 @@ import { Job, Worker } from "bullmq"
 const connection = {
     host: REDIS_HOST,
     port: REDIS_PORT,
+    password: REDIS_PASSWORD
 }
 
 export const queue = new Queue("import-employees", { connection })

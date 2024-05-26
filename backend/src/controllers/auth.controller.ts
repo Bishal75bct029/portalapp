@@ -30,6 +30,13 @@ export async function login(req: Request, res: Response) {
         role: user.role,
     })
 
+    if(user.role == "employer"){
+        res.status(401)
+            return {
+                error: "Employer login not allowed",
+            }
+    }
+
     if (user.role == "employee") {
         const employee = await prisma.employee.findFirst({
             where: { userId: user.id },

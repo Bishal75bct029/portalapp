@@ -11,6 +11,7 @@ export default function Authenticated() {
     ) => {
         let token = req.headers.authorization
         try {
+
             if (
                 !token ||
                 !token.startsWith("Bearer") ||
@@ -32,7 +33,7 @@ export default function Authenticated() {
             })
 
             req.user = user
-        } catch (_: any) {
+        } catch (e: any) {
             return res.status(401).json({
                 message: "Unauthorized",
             })

@@ -1,18 +1,16 @@
-import { useState, useContext, createContext, useEffect } from 'react'
-import LoginPage from './pages/Login'
-import useAuth from './hooks/useAuth'
-import { AuthContext, AuthProvider } from './providers/Auth'
+import { useContext } from 'react'
+import { AuthContext } from './providers/Auth'
+import { Outlet } from 'react-router-dom'
+import { Toaster } from './components/ui/toaster'
 
 function App() {
-  const { user } = useContext(AuthContext)
+  const { loading } = useContext(AuthContext)
 
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-gray-50">
-        {!user && <LoginPage />}
-        {user && (<div>Hello {user.name}</div>)}
-      </div>
-    </AuthProvider >
+    <div className="min-h-screen bg-gray-50">
+      <Toaster />
+      {loading ? <></> : <Outlet />}
+    </div>
   )
 }
 

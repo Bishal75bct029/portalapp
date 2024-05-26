@@ -10,12 +10,13 @@ import * as meController from "./controllers/me.controller"
 import Authenticated from "./middlewares/authenticated.middleware"
 import HasRole from "./middlewares/hasRole.middleware"
 import { controller } from "./utils"
-import multer from 'multer'
+import fileupload from 'express-fileupload';
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(fileupload())
 
 app.post("/login", controller(authController.login))
 app.post("/employer/login", controller(employerLoginController.handle))
@@ -46,13 +47,41 @@ app.delete(
     controller(employerController.destroy)
 )
 
+app.get(
+    "/employees/",
+    Authenticated(),
+    HasRole(["employer"]),
+    controller(employeeController.index)
+)
+
+app.get(
+    "/employees/:id",
+    Authenticated(),
+    HasRole(["employer","employee"]),
+    controller(employeeController.getSingleEmployee)
+)
+
+app.post(
+    "/employees",
+    Authenticated(),
+    HasRole(["employer"]),
+    controller(employeeController.store)
+)
+
 app.post(
     "/employees/bulk-import",
     Authenticated(),
     HasRole(["employer"]),
-    multer().single('file'),
     controller(bulkEmployeeImportController.handle)
 )
+
+app.put(
+    "/employees/:id",
+    Authenticated(),
+    HasRole(["employer","employee"]),
+    controller(employeeController.update)
+)
+
 app.delete(
     "/employees/:id",
     Authenticated(),

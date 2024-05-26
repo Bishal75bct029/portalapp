@@ -1,33 +1,33 @@
 import { Request, Response } from "express"
-import multer from "multer"
+import { queue } from "../queues/importEmployees.queue";
+import { AuthenticatedRequest, AuthenticatedUser } from "../types";
+import prisma from "../../prisma";
 
-export async function handle(req: Request, res: Response) {
-    if (!req.file) {
+export async function handle(req: Request & { user: AuthenticatedUser }, res: Response) {
+    if (!req.files?.file) {
         res.status(400)
         return { message: "No file uploaded" }
     }
 
-    const storage = multer.diskStorage({
-        destination: function (_, __, cb) {
-            cb(null, "uploads/")
-        },
-        filename: (_, file, cb) => {
-            const fileName =
-                Math.random().toString(36).substring(7) +
-                new Date().getTime() +
-                "." +
-                file.originalname.split(".").pop()
+    const excelFile = Array.isArray(req.files.file) ? req.files.file[0] : req.files.file;
 
-                console.log(fileName)
-            cb(null, fileName)
-        },
-    })
+    const uploadPath = __dirname + '/../../uploads/abc.xlsx'
 
-    const upload = multer({ storage }).single("file")
+    const employer = await prisma.employer.findFirstOrThrow({
+        where: {
+            userId: req.user.id
+        }
+    });
 
-    upload(req, res, (err) => {
-        console.log(err)
-    })
+    excelFile.mv(uploadPath, function (err) {
+        if (err) {
+            res.status(400).json({ message: err.message || "Something went wrong while uploading file" })
+        }
 
-    return 1
+        queue.add('InitiateImportEmployees', {
+            filename: uploadPath,
+            employerId: employer.id
+        })
+
+    });
 }

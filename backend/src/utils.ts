@@ -45,7 +45,7 @@ export function controller(handler: controllerHandler) {
                 response.status(200)
             }
 
-            response.json(data)
+            if (!response.headersSent) response.json(data)
         } catch (e: any) {
             if (e instanceof ValidationError) {
                 response.status(422).json({

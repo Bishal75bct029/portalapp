@@ -19,30 +19,30 @@ import { hashText } from "./utils"
         },
         {
             name: "Rakesh Thapa",
-            email: "rakeshthapa358@gmail.com",
+            email: "bishallc175@gmail.com",
             role: "employer",
         },
         {
             name: "Vc76it23",
-            email: "vc76it23@vedascollege.edu.np",
+            email: "vc76it231@vedascollege.edu.np",
             role: "employer",
         },
         {
-            name: "Ram",
-            email: "ram@gmail.com",
+            name: "Ram Sita",
+            email: "namaste2@gmail.com",
             role: "employee",
             employee: {
-                employer: "rakeshthapa358@gmail.com",
+                employer: "vc76it231@vedascollege.edu.np",
                 title: "Software Engineer",
                 salary: 100000,
             },
         },
         {
-            name: "Shyam",
-            email: "shyam@gmail.com",
+            name: "Nepali Babu",
+            email: "nepal@gmail.com",
             role: "employee",
             employee: {
-                employer: "vc76it23@vedascollege.edu.np",
+                employer: "bishallc17@gmail.com",
                 title: "QA",
                 salary: 50000,
             },
